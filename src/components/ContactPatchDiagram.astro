@@ -1,0 +1,52 @@
+---
+// Plate I — plan view of the tyre contact patch, upright vs leaned.
+// Blue = full patch (grip available); red = reduced patch when leaned.
+---
+
+<svg viewBox="0 0 460 210" class="plate-svg" role="img"
+  aria-label="Contact patch comparison: large when upright, small when leaned">
+
+  <!-- baseline -->
+  <line x1="30" y1="170" x2="430" y2="170" stroke="var(--color-rule)" stroke-width="1" />
+
+  <!-- ── UPRIGHT patch ── -->
+  <g>
+    <rect x="92" y="58" width="52" height="86" rx="22"
+      fill="color-mix(in srgb, var(--color-blueprint) 14%, transparent)"
+      stroke="var(--color-blueprint)" stroke-width="1.75" />
+    <!-- tread hints -->
+    <line x1="118" y1="62" x2="118" y2="140" stroke="var(--color-blueprint)" stroke-width="0.75" opacity="0.5" />
+    <!-- width ticks -->
+    <line x1="92" y1="156" x2="92" y2="166" stroke="var(--color-ink-faint)" stroke-width="1" />
+    <line x1="144" y1="156" x2="144" y2="166" stroke="var(--color-ink-faint)" stroke-width="1" />
+    <line x1="92" y1="161" x2="144" y2="161" stroke="var(--color-ink-faint)" stroke-width="1" />
+    <text x="118" y="190" text-anchor="middle" class="dlbl dlbl-strong">Upright</text>
+    <text x="118" y="46" text-anchor="middle" class="dlbl dlbl-blue">Max grip</text>
+  </g>
+
+  <!-- arrow -->
+  <g>
+    <line x1="186" y1="100" x2="276" y2="100" stroke="var(--color-ink-faint)" stroke-width="1" stroke-dasharray="3 4" />
+    <path d="M 276 100 l -8 -4 l 0 8 z" fill="var(--color-ink-faint)" />
+    <text x="231" y="92" text-anchor="middle" class="dlbl">Lean</text>
+  </g>
+
+  <!-- ── LEANED patch ── -->
+  <g>
+    <rect x="312" y="68" width="28" height="74" rx="13"
+      fill="color-mix(in srgb, var(--color-racing) 16%, transparent)"
+      stroke="var(--color-racing)" stroke-width="1.75" />
+    <line x1="326" y1="72" x2="326" y2="138" stroke="var(--color-racing)" stroke-width="0.75" opacity="0.5" />
+    <line x1="312" y1="156" x2="312" y2="166" stroke="var(--color-ink-faint)" stroke-width="1" />
+    <line x1="340" y1="156" x2="340" y2="166" stroke="var(--color-ink-faint)" stroke-width="1" />
+    <line x1="312" y1="161" x2="340" y2="161" stroke="var(--color-ink-faint)" stroke-width="1" />
+    <text x="326" y="190" text-anchor="middle" class="dlbl dlbl-strong">Leaned</text>
+    <text x="326" y="56" text-anchor="middle" class="dlbl dlbl-racing">Less grip</text>
+  </g>
+
+  <text x="30" y="24" class="dlbl">Plan view · the rubber actually touching the road</text>
+</svg>
+
+<style>
+  .plate-svg { width: 100%; height: auto; display: block; }
+</style>

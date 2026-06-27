@@ -1,0 +1,25 @@
+{
+  "name": "racecraft",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "A blueprint-style interactive manual for motorbike racing technique and the physics behind it.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@astrojs/svelte": "^7.0.0",
+    "@tailwindcss/vite": "^4.0.0",
+    "astro": "^5.0.0",
+    "katex": "^0.17.0",
+    "svelte": "^5.0.0",
+    "tailwindcss": "^4.0.0"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.9"
+  }
+}

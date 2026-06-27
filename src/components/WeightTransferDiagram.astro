@@ -1,0 +1,64 @@
+---
+// Plate II — side-profile schematic: under braking the load shifts onto
+// the front, the forks dive, and the rake angle sets steering response.
+---
+
+<svg viewBox="0 0 470 215" class="plate-svg" role="img"
+  aria-label="Side view of a braking motorcycle showing forward weight transfer and fork dive">
+
+  <!-- ground -->
+  <line x1="20" y1="180" x2="450" y2="180" stroke="var(--color-rule)" stroke-width="1.25" />
+  {[40, 80, 120, 160, 200, 240, 280, 320, 360, 400, 440].map((x) => (
+    <line x1={x} y1="180" x2={x - 6} y2="188" stroke="var(--color-grid)" stroke-width="1" />
+  ))}
+
+  <!-- rear wheel -->
+  <circle cx="115" cy="150" r="30" fill="none" stroke="var(--color-ink)" stroke-width="1.75" />
+  <circle cx="115" cy="150" r="11" fill="none" stroke="var(--color-ink-faint)" stroke-width="1" />
+  <!-- front wheel -->
+  <circle cx="365" cy="150" r="30" fill="none" stroke="var(--color-ink)" stroke-width="1.75" />
+  <circle cx="365" cy="150" r="11" fill="none" stroke="var(--color-ink-faint)" stroke-width="1" />
+
+  <!-- swingarm + frame -->
+  <path d="M 115 150 L 205 150 L 215 112 L 285 104 L 332 96"
+    fill="none" stroke="var(--color-ink)" stroke-width="1.5" stroke-linejoin="round" />
+  <!-- seat / tank hint -->
+  <path d="M 205 112 Q 250 96 300 100" fill="none" stroke="var(--color-ink-faint)" stroke-width="1" />
+
+  <!-- fork (raked) -->
+  <line x1="332" y1="96" x2="365" y2="150" stroke="var(--color-ink)" stroke-width="2.5" />
+  <!-- vertical reference + rake arc -->
+  <line x1="332" y1="96" x2="332" y2="150" stroke="var(--color-ink-faint)" stroke-width="0.75" stroke-dasharray="3 3" />
+  <path d="M 332 126 A 24 24 0 0 0 345 132" fill="none" stroke="var(--color-blueprint)" stroke-width="1.25" />
+  <text x="318" y="146" class="dlbl dlbl-blue">rake θ</text>
+
+  <!-- fork dive -->
+  <line x1="352" y1="112" x2="358" y2="138" stroke="var(--color-racing)" stroke-width="1.5" marker-end="url(#arrowR)" />
+  <text x="372" y="118" class="dlbl dlbl-racing">fork dive</text>
+
+  <!-- CoM -->
+  <circle cx="240" cy="120" r="4.5" fill="var(--color-ink)" />
+  <text x="240" y="108" text-anchor="middle" class="dlbl dlbl-strong">CoM</text>
+
+  <!-- load shifts forward -->
+  <line x1="248" y1="124" x2="330" y2="138" stroke="var(--color-ink-faint)" stroke-width="1.25"
+    stroke-dasharray="4 4" marker-end="url(#arrowK)" />
+  <text x="262" y="150" class="dlbl">load forward</text>
+
+  <!-- braking / deceleration -->
+  <line x1="300" y1="200" x2="210" y2="200" stroke="var(--color-racing)" stroke-width="1.75" marker-end="url(#arrowR)" />
+  <text x="305" y="204" class="dlbl dlbl-racing">braking</text>
+
+  <defs>
+    <marker id="arrowR" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 z" fill="var(--color-racing)" />
+    </marker>
+    <marker id="arrowK" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 z" fill="var(--color-ink-faint)" />
+    </marker>
+  </defs>
+</svg>
+
+<style>
+  .plate-svg { width: 100%; height: auto; display: block; }
+</style>

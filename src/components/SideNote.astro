@@ -1,0 +1,52 @@
+---
+/**
+ * SideNote — a static marginal note (Tufte style).
+ * Renders an inline marker in the text and floats the note into the right
+ * gutter, vertically near its anchor. Always visible, never interactive.
+ * On narrow screens it collapses to an indented inline block.
+ *
+ * Usage (inline, inside a paragraph):
+ *   ...some text.<SideNote marker="1">Aside or citation here.</SideNote>
+ */
+interface Props {
+  marker?: string; // small symbol/number shown in text and before the note
+}
+const { marker = '✦' } = Astro.props;
+---
+<span class="sn"><span class="sn-ref">{marker}</span><small class="sn-note"><span class="sn-mk">{marker}</span><slot /></small></span>
+
+<style>
+  .sn-ref {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--color-racing);
+    vertical-align: super;
+    line-height: 0;
+    margin-left: 1px;
+  }
+  .sn-note {
+    float: right;
+    clear: right;
+    width: 13rem;
+    margin: 0.15rem -15rem 0.7rem 0;  /* push OUTSIDE the paper, into the grid margin */
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    line-height: 1.5;
+    color: var(--color-ink-faint);
+    text-align: left;
+  }
+  .sn-mk { color: var(--color-racing); margin-right: 0.35rem; }
+
+  /* Narrow: fold inline beneath the paragraph as an indented block */
+  @media (max-width: 1280px) {
+    .sn-note {
+      float: none;
+      width: auto;
+      display: block;
+      margin: 0.5rem 0;
+      padding-left: 0.7rem;
+      border-left: 2px solid var(--color-rule);
+    }
+    .sn-ref { display: none; }
+  }
+</style>

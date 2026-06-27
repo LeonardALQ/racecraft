@@ -1,0 +1,500 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Figure from '../components/Figure.astro';
+import PartHeader from '../components/PartHeader.astro';
+import ContactPatchDiagram from '../components/ContactPatchDiagram.astro';
+import WeightTransferDiagram from '../components/WeightTransferDiagram.astro';
+import CornerDiagram from '../components/CornerDiagram.astro';
+import SideNote from '../components/SideNote.astro';
+import Math from '../components/Math.astro';
+import TractionBudget from '../components/TractionBudget.svelte';
+import CorneringPhases from '../components/CorneringPhases.svelte';
+import LeanFactors from '../components/LeanFactors.svelte';
+
+const toc = [
+  { part: 'I', name: 'The Model', href: '#p1', items: [
+    ['01', 'The Tyre & Contact Patch', '#s-patch'],
+    ['02', 'The Traction Budget', '#s-grip'],
+    ['03', 'Vision & Where to Look', '#s-vision'],
+  ]},
+  { part: 'II', name: 'The Inputs', href: '#p2', items: [
+    ['04', 'Counter-steering', '#s-counter'],
+    ['05', 'Braking & Trail-braking', '#s-brake'],
+    ['06', 'Throttle', '#s-throttle'],
+    ['07', 'Gear Changes', '#s-gears'],
+    ['08', 'Leaning', '#s-lean'],
+    ['09', 'Body Position', '#s-body'],
+    ['10', 'Making the Bike Lean Quickly', '#s-turnin'],
+  ]},
+  { part: 'III', name: 'The Path', href: '#p3', items: [
+    ['11', 'Race Lines', '#s-lines'],
+  ]},
+  { part: 'IV', name: 'Putting It Together', href: '#p4', items: [
+    ['12', 'Cornering: Entry · Apex · Exit', '#s-corner'],
+  ]},
+];
+---
+
+<Layout>
+  <main class="mx-auto max-w-6xl px-4">
+    <div class="paper">
+    <!-- ── Hero / Preface ─────────────────────────────── -->
+    <section class="pt-14 pb-10 border-b border-[var(--color-rule)]">
+      <div class="label mb-3">Preface</div>
+      <h1 class="text-3xl sm:text-4xl leading-tight max-w-2xl">
+        Riding Fast Is Physics.<br />This Manual Makes It Legible.
+      </h1>
+      <p class="prose-manual mt-4 max-w-2xl">
+        A working manual on motorbike racing technique, built in four parts:
+        the <strong>model</strong> that governs everything, the <strong>inputs</strong>
+        you use to spend it, the <strong>line</strong> you spend it along, and how it
+        all comes together in a <strong>corner</strong>. Diagrams and figures are
+        interactive — push on them.
+      </p>
+
+      <!-- grouped contents -->
+      <nav class="mt-8 grid sm:grid-cols-2 gap-x-10 gap-y-6 max-w-3xl">
+        {toc.map((p) => (
+          <div>
+            <a href={p.href} class="part-kicker block mb-2 hover:underline">
+              Part {p.part} — {p.name}
+            </a>
+            <ul class="space-y-1">
+              {p.items.map(([num, name, href]) => (
+                <li>
+                  <a href={href} class="group flex items-baseline gap-2 py-0.5">
+                    <span class="section-num text-xs">{num}</span>
+                    <span class="font-mono text-sm text-[var(--color-ink-soft)] group-hover:text-[var(--color-ink)]">{name}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </nav>
+    </section>
+
+    <!-- ══════════════════ PART I ══════════════════ -->
+    <PartHeader
+      id="p1" part="I" title="The Model"
+      plate="I" plateTitle="Contact Patch"
+      intro="Before any technique, three things govern everything that follows: the tiny contact patch that is your only link to the road, the finite grip it provides, and where you point your eyes. Get the model right and every input later becomes obvious."
+    >
+      <ContactPatchDiagram />
+    </PartHeader>
+
+    <!-- 01 Contact Patch -->
+    <section id="s-patch" class="py-9 border-b border-[var(--color-rule)] scroll-mt-16">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="label">Section 01</span><span class="tag">Draft</span>
+      </div>
+      <h3 class="text-xl mb-4">The Tyre &amp; Contact Patch</h3>
+      <div class="prose-manual max-w-2xl">
+        <ul>
+          <li>
+            Everything you ask the bike to do reaches the road through two contact
+            patches, each roughly the size of your palm. That patch is your
+            <strong>entire grip budget</strong> — there is nothing else.
+          </li>
+          <li>
+            Grip is not fixed. It rises and falls with the <strong>load</strong> on the
+            tyre, its <strong>temperature</strong>, and the <strong>surface</strong>.
+            Cold tyres grip far less, which is why you bring them up to temperature
+            before you push.
+          </li>
+          <li>
+            The patch is <strong>largest when the bike is upright</strong>. As you lean,
+            you ride onto the rounded shoulder of the tyre and the patch shrinks — which
+            is exactly why lean angle costs you grip you could otherwise spend on braking
+            or drive.
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 02 Traction Budget -->
+    <section id="s-grip" class="py-9 border-b border-[var(--color-rule)] scroll-mt-16">
+      <div class="label mb-2">Section 02</div>
+      <h3 class="text-xl mb-4">The Traction Budget</h3>
+
+      <div class="prose-manual">
+        <p>
+          A tyre has <strong>one budget of grip</strong>, shared between slowing or driving
+          (longitudinal) and turning (lateral).<SideNote marker="1"><strong>Longitudinal</strong> grip is what you spend on brake and throttle; <strong>lateral</strong> grip is what you spend on lean. One budget feeds both.</SideNote>
+          Spend it all in one direction and there is none left for the other.
+        </p>
+
+        <h4 class="idea-kicker">The idea — a friction circle</h4>
+        <p>
+          Treat the limit as the same in every direction: a circle of radius
+          <Math expr={String.raw`F_{\max}=\mu F_z`} />. The longitudinal demand
+          <Math expr={String.raw`F_x`} /> and lateral demand <Math expr={String.raw`F_y`} />
+          add as a vector, and the resultant cannot leave the circle:
+        </p>
+        <Math display expr={String.raw`\left(\frac{F_x}{F_{\max}}\right)^2 + \left(\frac{F_y}{F_{\max}}\right)^2 \le 1`} />
+        <p>
+          So 70% brake with 70% lean is fine — <Math expr={String.raw`0.7^2 + 0.7^2 = 0.98 \le 1`} />,
+          just inside the limit. Drag the node below and feel the trade-off.<SideNote marker="2">The circle is Pacejka's idealisation; real tyres trace a slightly taller <em>ellipse</em> (Pacejka 2006; Foale 2006).</SideNote>
+        </p>
+      </div>
+
+      <Figure num="2.1" title="The Friction Circle">
+        <TractionBudget client:visible initialMode="circle" showModes={false} />
+      </Figure>
+
+      <div class="prose-manual">
+        <h4 class="idea-kicker">Adding real tyre behaviour</h4>
+        <p>
+          Real tyres aren't isotropic, so the circle is really an <strong>ellipse</strong> —
+          longitudinal and lateral peak grip differ:
+        </p>
+        <Math display expr={String.raw`\left(\frac{F_x}{F_{x,\max}}\right)^2 + \left(\frac{F_y}{F_{y,\max}}\right)^2 \le 1`} />
+        <p>
+          And grip is <strong>load-sensitive</strong>: the friction coefficient falls as
+          vertical load rises (Milliken &amp; Milliken, Fig. 2.9), so the whole budget breathes
+          with weight transfer —
+        </p>
+        <Math display expr={String.raw`\mu(F_z) = \mu_0 - k\,F_z, \qquad k > 0`} />
+        <p>
+          Peak force <Math expr={String.raw`F_{\max}=\mu(F_z)\,F_z`} /> still grows with load,
+          but at a diminishing rate. A leaned tyre also makes lateral force from
+          <strong>camber thrust</strong>, not just slip, so lean angle
+          <Math expr={String.raw`\gamma`} /> contributes directly —
+          <Math expr={String.raw`F_y \approx C_\alpha\,\alpha + C_\gamma\,\gamma`} />. Raise the
+          load below and watch the ellipse breathe.
+        </p>
+      </div>
+
+      <Figure num="2.2" title="The Friction Ellipse — load sensitivity">
+        <TractionBudget client:visible initialMode="ellipse" showModes={false} />
+      </Figure>
+
+      <div class="prose-manual">
+        <h4 class="idea-kicker">What's actually happening</h4>
+        <p>
+          Tyre force is a nonlinear function of slip ratio <Math expr={String.raw`\kappa`} /> and
+          slip angle <Math expr={String.raw`\alpha`} />, captured by Pacejka's Magic Formula:
+        </p>
+        <Math display expr={String.raw`F = F_z\,D\,\sin\!\Big(C\arctan\!\big(Bs - E(Bs - \arctan Bs)\big)\Big)`} />
+        <p>
+          Under <strong>combined slip</strong> the two forces interact, bending the ellipse.
+          Meanwhile each tyre's load is set dynamically by acceleration and CoG height — braking
+          loads the front:
+        </p>
+        <Math display expr={String.raw`F_{z,\text{front}} = \frac{m g\,b - m\,a_x\,h}{L}, \qquad \Delta F_z = \frac{m\,a_x\,h}{L}`} />
+        <p>
+          So the &ldquo;friction circle&rdquo; is really a load- and slip-dependent
+          <strong>surface</strong> in <Math expr={String.raw`(\kappa,\ \alpha,\ F_z,\ \gamma)`} />
+          space, changing every instant of the corner. Brake hard below and watch the front
+          ellipse grow.
+        </p>
+      </div>
+
+      <Figure num="2.3" title="Combined Slip &amp; Load Transfer">
+        <TractionBudget client:visible initialMode="combined" showModes={false} />
+      </Figure>
+
+      <div class="refs">
+        <div class="label" style="margin-bottom:0.4rem;">References — §02</div>
+        <ol class="ref-list">
+          <li>Pacejka, H. B. (2006). <em>Tire and Vehicle Dynamics</em> (2nd ed.). SAE. — friction circle/ellipse; Magic Formula; combined slip.</li>
+          <li>Milliken, W. F. &amp; Milliken, D. L. (1995). <em>Race Car Vehicle Dynamics</em>. SAE. — tyre load sensitivity (Fig. 2.9 dataset).</li>
+          <li>Cossalter, V. (2006). <em>Motorcycle Dynamics</em> (2nd ed.). — motorcycle friction ellipse; camber thrust.</li>
+          <li>Foale, T. (2006). <em>Motorcycle Handling and Chassis Design</em> (2nd ed.).</li>
+          <li>Wong, J. Y. (2008). <em>Theory of Ground Vehicles</em> (2nd ed.). Wiley.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 03 Vision -->
+    <section id="s-vision" class="py-9 border-b border-[var(--color-rule)] scroll-mt-16">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="label">Section 03</span><span class="tag">Draft</span>
+      </div>
+      <h3 class="text-xl mb-4">Vision &amp; Where to Look</h3>
+      <div class="prose-manual max-w-2xl">
+        <ul>
+          <li>
+            <strong>You go where you look.</strong> The bike follows your eyes. Fixate on the
+            thing that scares you and you will steer straight into it — that's target fixation.
+          </li>
+          <li>
+            Keep your <strong>eyes up</strong> and look through the corner to where you want to
+            be next: turn-in, then apex, then exit. Your peripheral vision handles the rest.
+          </li>
+          <li>
+            This is the antidote to running wide. The rider who runs wide and crashes is usually
+            staring at the edge of the road. Lift your eyes to the exit and the bike comes back
+            to you — precisely when you're tempted to panic and dump the throttle (§06).
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ══════════════════ PART II ══════════════════ -->
+    <PartHeader
+      id="p2" part="II" title="The Inputs"
+      plate="II" plateTitle="Weight Transfer"
+      intro="Every control — bars, brakes, throttle, gears, and your own body — spends from the single grip budget. Used in the right order and proportion they hand off to one another seamlessly. Used carelessly they overspend, and the tyre lets go."
+    >
+      <WeightTransferDiagram />
+    </PartHeader>
+
+    <!-- 04 Counter-steering -->
+    <section id="s-counter" class="py-9 border-b border-[var(--color-rule)] scroll-mt-16">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="label">Section 04</span><span class="tag">Draft</span>
+      </div>
+      <h3 class="text-xl mb-4">Counter-steering</h3>
+      <div class="prose-manual max-w-2xl">
+        <ul>
+          <li>
+            Above walking pace you don't lean the bike by leaning your body — you
+            <strong>steer the bars momentarily the "wrong" way</strong>. Push the inside bar
+            (push the right bar to go right) and the bike falls into the turn.
+          </li>
+          <li>
+            This briefly moves the contact patches out from under the centre of mass, so the
+            bike rolls into lean. To stand it back up, you ease or reverse the pressure.
+          </li>
+          <li>
+            It's the only way lean is initiated — whether you think about it or not. Everything
+            in <em>Making the Bike Lean Quickly</em> (§10) is about how fast the bike answers
+            this one input.
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 05 Braking & Trail-braking -->
+    <section id="s-brake" class="py-9 border-b border-[var(--color-rule)] scroll-mt-16">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="label">Section 05</span><span class="tag">Expanded</span>
+      </div>
+      <h3 class="text-xl mb-4">Braking &amp; Trail-braking</h3>
+      <div class="prose-manual max-w-2xl">
+        <ul>
+          <li>
+            Brake in a pattern of <strong>5% → 100%</strong>: squeeze in lightly first to load
+            the front tyre and let it take the weight, then build to peak pressure. Never grab
+            it — an unloaded front locks or washes.
+          </li>
+          <li>
+            <strong>Trail-braking</strong> is carrying that brake past the turn-in point and
+            <strong>bleeding it off as you add lean</strong>. You're trading one input for
+            another along the grip budget: as lean rises, brake falls, and the sum stays near
+            the limit (this is the curved path across Fig. 2.1).
+          </li>
+          <li>
+            Done right there is no coasting moment between braking and cornering — the front
+            stays loaded and the bike keeps turning all the way to the apex.
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 06 Throttle -->
+    <section id="s-throttle" class="py-9 border-b border-[var(--color-rule)] scroll-mt-16">
+      <div class="label mb-2">Section 06</div>
+      <h3 class="text-xl mb-4">Throttle</h3>
+      <div class="prose-manual max-w-2xl">
+        <ul>
+          <li>
+            Throttle must be applied <strong>smoothly, evenly, and consistently</strong>. This
+            does not mean you take multiple seconds to apply it — it means you actively roll the
+            throttle on and off proportional to your other inputs (mainly lean and braking). You
+            should <strong>never dump the throttle</strong>.
+          </li>
+          <li>
+            Dumping the throttle compresses the front forks significantly, and is one of the most
+            common reasons people crash when they run wide. They get scared, they dump the
+            throttle, they're already braking or leaning hard and don't have much travel left.
+            The moment they let go, they run out of travel and crash.
+          </li>
+          <li>
+            <strong>If you are running wide, do not dump the throttle.</strong> Hold steady — this
+            lets you decelerate and also lets you turn more.
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 07 Gear Changes -->
+    <section id="s-gears" class="py-9 border-b border-[var(--color-rule)] scroll-mt-16">
+      <div class="label mb-2">Section 07</div>
+      <h3 class="text-xl mb-4">Gear Changes</h3>
+      <div class="prose-manual max-w-2xl">
+        <ul>
+          <li>A gear change is another input you should <strong>not</strong> be manipulating near maximal lean angle.</li>
+          <li><strong>Downshift during maximal braking</strong>; <strong>upshift as you exit</strong> the corner.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 08 Leaning -->
+    <section id="s-lean" class="py-9 border-b border-[var(--color-rule)] scroll-mt-16">
+      <div class="label mb-2">Section 08</div>
+      <h3 class="text-xl mb-4">Leaning</h3>
+      <div class="prose-manual max-w-2xl">
+        <p class="mb-3">There are two different angles we care about:</p>
+        <ul>
+          <li>
+            <strong>Chassis lean angle</strong> — the angle of the bike relative to the ground.
+            The steeper this angle, the smaller the contact patch, and therefore the less speed
+            you can carry.
+          </li>
+          <li>
+            <strong>System lean angle</strong> — the angle from the tyre's contact patch to the
+            centre of mass (bike + rider combined).
+          </li>
+        </ul>
+        <p class="mt-3">
+          To maintain more speed we want to <strong>minimise chassis lean</strong>. The steeper
+          that angle, the smaller the contact patch — which effectively "gears the bike down,"
+          exactly the way gears work.
+        </p>
+        <p class="mt-3">
+          To minimise chassis lean, we <strong>offset the centre of gravity</strong> of the
+          system — i.e. maximise the system lean angle while keeping the chassis more upright.
+          (How we do that is Body Position, §09.)
+        </p>
+        <p class="mt-4 editor">
+          ✎ Editor's note — your source notes trail off here ("By doing so, …"). Left as a stub;
+          we'll finish the chassis-vs-system explanation and add a lean-offset diagram.
+        </p>
+      </div>
+    </section>
+
+    <!-- 09 Body Position -->
+    <section id="s-body" class="py-9 border-b border-[var(--color-rule)] scroll-mt-16">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="label">Section 09</span><span class="tag">Draft</span>
+      </div>
+      <h3 class="text-xl mb-4">Body Position</h3>
+      <div class="prose-manual max-w-2xl">
+        <ul>
+          <li>
+            Body position is how you <strong>cheat lean angle</strong>. By hanging your body to
+            the inside you move the system's centre of mass inboard, so the bike makes the same
+            cornering force at a <strong>smaller chassis lean angle</strong> — keeping a bigger
+            contact patch (§08).
+          </li>
+          <li>
+            Get your weight off the seat and to the inside: inside cheek off the seat, head and
+            shoulder down and into the corner, weight on the inside peg.
+          </li>
+          <li>
+            Support yourself with your <strong>legs and core, not your arms</strong>. A loose
+            grip on the bars is essential — tension feeds straight into the steering and ruins
+            the smooth throttle and brake inputs everything else depends on.
+          </li>
+        </ul>
+        <p class="mt-4 editor">
+          ✎ This section was blank in your notes — above is a standard-technique draft for you to
+          rewrite in your own voice. A lean-offset diagram will live here.
+        </p>
+      </div>
+    </section>
+
+    <!-- 10 Making the Bike Lean Quickly -->
+    <section id="s-turnin" class="py-9 border-b border-[var(--color-rule)] scroll-mt-16">
+      <div class="label mb-2">Section 10</div>
+      <h3 class="text-xl mb-4">Making the Bike Lean Quickly</h3>
+      <div class="prose-manual max-w-2xl">
+        <p class="mb-3">To make the bike lean as fast as possible, we want:</p>
+        <ul>
+          <li>
+            <strong>Reduced gyroscopic force.</strong> Two prominent sources: the wheels and the
+            engine. Roll off the throttle to settle the engine, and brake hard to reduce the
+            gyroscopic force of the wheels.
+          </li>
+          <li>
+            <strong>A steeper rake angle</strong> (the angle between the steering and the road).
+            A steeper angle makes the wheel counter-steer faster — it's leverage. Moving a longer
+            stick takes more force than a shorter one; pushing a door right next to its hinge is hard.
+          </li>
+          <li>
+            <strong>A shorter wheelbase.</strong> The same leverage idea, but lateral. Picture the
+            bike as a stick connecting two contact patches — a longer stick needs more force to move.
+          </li>
+        </ul>
+      </div>
+
+      <Figure num="10.1" title="Turn-in Agility Factors"
+        caption="A qualitative teaching model (not exact physics). Shed gyroscopic load and sharpen the geometry to see the turn-in index climb.">
+        <LeanFactors client:visible />
+      </Figure>
+    </section>
+
+    <!-- ══════════════════ PART III ══════════════════ -->
+    <PartHeader
+      id="p3" part="III" title="The Path"
+      plate="III" plateTitle="The Racing Line"
+      intro="Grip and inputs decide what the bike can do; the line decides where you do it. A good line straightens the corner — which means less lean for the same speed, and grip handed back for braking and drive."
+    >
+      <CornerDiagram mode="line" />
+    </PartHeader>
+
+    <!-- 11 Race Lines -->
+    <section id="s-lines" class="py-9 border-b border-[var(--color-rule)] scroll-mt-16">
+      <div class="label mb-2">Section 11</div>
+      <h3 class="text-xl mb-4">Race Lines</h3>
+      <div class="prose-manual max-w-2xl">
+        <ul>
+          <li>You want to <strong>straighten the turn</strong> as much as possible.</li>
+          <li>The <strong>apex</strong> is the point where you are closest to the inside of the turn.</li>
+          <li>
+            On the road, stay to the <strong>outside</strong> until you can see the exit of the
+            corner, then pick 2–3 points (apex, exit, and any others you need) to form the line
+            to aim at.
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ══════════════════ PART IV ══════════════════ -->
+    <PartHeader
+      id="p4" part="IV" title="Putting It Together"
+      plate="IV" plateTitle="Corner Phases"
+      intro="Now overlay the inputs onto the line. A corner is one continuous handover: brakes to lean, lean to throttle — executed along the line you chose, never spending more grip than the tyre has."
+    >
+      <CornerDiagram mode="zones" />
+    </PartHeader>
+
+    <!-- 12 Cornering -->
+    <section id="s-corner" class="py-9 scroll-mt-16">
+      <div class="label mb-2">Section 12</div>
+      <h3 class="text-xl mb-4">Cornering — Entry, Apex, Exit</h3>
+      <div class="prose-manual max-w-2xl">
+        <p class="mb-3">Break a corner into three parts: entry, apex, exit.</p>
+        <ul>
+          <li><strong>Entry:</strong> throttle at 0%, braking at 100%.</li>
+          <li><strong>Entry → apex:</strong> decrease braking, increase lean.</li>
+          <li>
+            <strong>At the apex:</strong> approaching 100% lean and 0% braking. Right before you
+            reach 0% braking, <strong>take the slack out of the throttle</strong> so there's never
+            a frame where you're telling the bike to do nothing.
+          </li>
+          <li><strong>Apex → exit:</strong> decrease lean, increase throttle.</li>
+        </ul>
+      </div>
+
+      <Figure num="12.1" title="The Input Handover"
+        caption="Scrub the corner, or hit Run. Watch braking hand off to lean, lean hand off to throttle — and notice the grip-used figure stays near 100% when the inputs overlap correctly (that's trail-braking, §05).">
+        <CorneringPhases client:visible />
+      </Figure>
+    </section>
+    </div>
+  </main>
+</Layout>
+
+<style is:global>
+  .editor {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    line-height: 1.6;
+    color: var(--color-ink-faint);
+    border-left: 2px solid var(--color-amber);
+    padding-left: 0.7rem;
+  }
+</style>

@@ -1,0 +1,32 @@
+---
+interface Props {
+  id: string;
+  part: string;        // "I", "II", ...
+  title: string;
+  intro: string;
+  plate: string;       // "I", "II", ... (plate number)
+  plateTitle: string;  // e.g. "Contact Patch"
+}
+const { id, part, title, intro, plate, plateTitle } = Astro.props;
+---
+
+<section id={id} class="scroll-mt-16 pt-6">
+  <div class="part-rule"></div>
+  <div class="grid md:grid-cols-[1fr_1.1fr] gap-8 items-center py-9">
+    <div>
+      <div class="part-kicker">Part {part}</div>
+      <h2 class="part-title">{title}</h2>
+      <p class="prose-manual max-w-xl">{intro}</p>
+    </div>
+
+    <figure class="plate-frame ticked">
+      <div class="px-3 py-2 flex items-center justify-between">
+        <span class="label"><span class="section-num">Plate {plate}</span></span>
+        <span class="label">{plateTitle}</span>
+      </div>
+      <div class="px-4 pb-4 pt-1">
+        <slot />
+      </div>
+    </figure>
+  </div>
+</section>

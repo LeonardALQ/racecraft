@@ -1,0 +1,75 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import MathTiers from '../../components/MathTiers.astro';
+---
+<Layout>
+  <main class="mx-auto max-w-5xl px-5">
+    <div class="pt-10 pb-4">
+      <a href="/samples" class="label hover:underline">&larr; Panel samples</a>
+      <div class="part-kicker mt-4">Option B</div>
+      <h1 class="part-title">Margin Notes (Tufte)</h1>
+      <p class="prose-manual max-w-2xl">
+        The maths lives in the right margin, anchored to the sentence it explains. A marker
+        in the text expands the note in place; on narrow screens it folds inline beneath the
+        paragraph. Keeps maths and prose physically adjacent without leaving the page.
+      </p>
+    </div>
+
+    <section class="py-6 border-t border-[var(--color-rule)]">
+      <div class="label mb-2">Section 02</div>
+      <h3 class="text-xl mb-4">The Traction Budget</h3>
+
+      <div class="mn-grid">
+        <div class="mn-text prose-manual">
+          <p>
+            At the limit you get <strong>one</strong> of: 100% throttle, 100% brake, or 100%
+            lean. They share a single budget of grip — brake at 70% and you can still lean at
+            70%, because the demands add as a vector, not a sum.<label class="mn-marker" for="mn1">&sum;</label>
+          </p>
+          <p class="mt-3">
+            That's the intuition. Open the margin note to see the exact relationship and how
+            it bends once real tyres, load and camber enter.
+          </p>
+        </div>
+
+        <input type="checkbox" id="mn1" class="mn-toggle" />
+        <aside class="mn-note">
+          <label for="mn1" class="mn-note-head">
+            <span class="label"><span class="section-num">&sum;</span>&nbsp;The Maths</span>
+            <span class="mn-chev">&#9662;</span>
+          </label>
+          <div class="mn-note-body">
+            <MathTiers />
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <style>
+    .mn-grid { display: grid; grid-template-columns: minmax(0,1fr) 340px; gap: 2rem; align-items: start; }
+    .mn-text { max-width: 38rem; }
+    .mn-marker {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 1.1rem; height: 1.1rem; margin-left: 0.25rem; transform: translateY(-2px);
+      font-family: var(--font-mono); font-size: 0.7rem; cursor: pointer;
+      color: var(--color-racing); border: 1px solid var(--color-racing); border-radius: 2px;
+    }
+    .mn-toggle { display: none; }
+    .mn-note { border: 1px solid var(--color-rule); background: var(--color-card); }
+    .mn-note-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.55rem 0.8rem; cursor: pointer; border-bottom: 1px solid transparent;
+    }
+    .mn-note-body { padding: 0 0.9rem; max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .mn-toggle:checked ~ .mn-note .mn-note-head { border-bottom-color: var(--color-rule); }
+    .mn-toggle:checked ~ .mn-note .mn-note-body { max-height: 2400px; padding: 0.6rem 0.9rem 1rem; }
+    .mn-toggle:checked ~ .mn-note .mn-chev { transform: rotate(180deg); }
+    .mn-chev { font-size: 0.7rem; color: var(--color-ink-faint); transition: transform 0.2s ease; }
+
+    @media (max-width: 820px) {
+      .mn-grid { grid-template-columns: 1fr; }
+      .mn-note { margin-top: 0.5rem; }
+    }
+  </style>
+</Layout>

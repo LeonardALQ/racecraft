@@ -1,0 +1,48 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+}
+const { title = 'Racecraft', subtitle = 'A Technical Manual for Riding Fast' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="An interactive blueprint manual explaining the physics and technique of motorbike racing." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title} — {subtitle}</title>
+  </head>
+  <body>
+    <!-- Top rule / masthead -->
+    <header class="border-b border-[var(--color-rule)] bg-[var(--color-card)]">
+      <div class="mx-auto max-w-5xl px-5 py-3 flex items-baseline justify-between gap-4">
+        <div class="flex items-baseline gap-3">
+          <span class="font-mono font-semibold tracking-tight text-[var(--color-ink)]">RACECRAFT</span>
+          <span class="label hidden sm:inline">Technical Manual / Vol. 01</span>
+        </div>
+        <div class="label">Rev. A · {new Date().getFullYear()}</div>
+      </div>
+    </header>
+
+    <slot />
+
+    <!-- Footer -->
+    <footer class="border-t border-[var(--color-rule)] mt-16 bg-[var(--color-card)]">
+      <div class="mx-auto max-w-5xl px-5 py-8 flex flex-col sm:flex-row justify-between gap-3">
+        <div class="label">Racecraft — Motorbike Technique &amp; Physics</div>
+        <div class="label">Document is a living draft · figures are interactive</div>
+      </div>
+    </footer>
+  </body>
+</html>

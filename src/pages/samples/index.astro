@@ -1,0 +1,37 @@
+---
+import Layout from '../../layouts/Layout.astro';
+const samples = [
+  ['A', 'Slide-in Drawer', 'Full-width reading; maths opens in a focused overlay drawer on demand.', '/samples/drawer'],
+  ['B', 'Margin Notes', 'Tufte-style: maths sits in the right margin, anchored to the sentence.', '/samples/margin'],
+  ['C', 'Persistent Rail', 'A permanent math rail beside the prose; deepen tiers in place.', '/samples/rail'],
+];
+---
+<Layout>
+  <main class="mx-auto max-w-3xl px-5">
+    <div class="pt-12 pb-6">
+      <div class="part-kicker">Prototype</div>
+      <h1 class="part-title">Math Panel — UX Samples</h1>
+      <p class="prose-manual max-w-2xl">
+        Three ways to present the toggleable maths. Each sample carries the <em>same</em>
+        payload — the Traction Budget in three additive tiers (idea &rarr; real tyre behaviour
+        &rarr; what's actually happening) — so you're comparing the panel UX, not the content.
+      </p>
+    </div>
+    <div class="grid gap-3 pb-10">
+      {samples.map(([k, name, desc, href]) => (
+        <a href={href} class="sample-card">
+          <div class="flex items-baseline gap-3">
+            <span class="section-num">Option {k}</span>
+            <span class="font-mono font-semibold text-[var(--color-ink)]">{name}</span>
+          </div>
+          <p class="prose-manual mt-1" style="font-size:0.85rem;">{desc}</p>
+          <span class="label mt-2 inline-block">View &rarr;</span>
+        </a>
+      ))}
+    </div>
+  </main>
+  <style>
+    .sample-card { display: block; border: 1px solid var(--color-rule); background: var(--color-card); padding: 1rem 1.2rem; transition: all 0.14s ease; }
+    .sample-card:hover { border-color: var(--color-ink); transform: translateY(-1px); }
+  </style>
+</Layout>

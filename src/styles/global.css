@@ -1,0 +1,253 @@
+@import "tailwindcss";
+
+/* ============================================================
+   RACECRAFT — blueprint / technical-manual design system
+   Light drafting-paper aesthetic, mono labels, single accent.
+   ============================================================ */
+
+@theme {
+  /* Surfaces */
+  --color-paper: #f2eee2;
+  --color-paper-2: #ece7d7;
+  --color-card: #f7f4ea;
+
+  /* Ink */
+  --color-ink: #1c1b18;
+  --color-ink-soft: #514e45;
+  --color-ink-faint: #8a8576;
+
+  /* Lines */
+  --color-rule: #c9c2ac;
+  --color-grid: #e7e1ce;
+
+  /* Accents */
+  --color-racing: #c2402b;   /* racing red — the "active/danger" accent */
+  --color-blueprint: #2f5d7c; /* technical line blue */
+  --color-amber: #c8851f;     /* warning / caution */
+
+  /* Type */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+/* ---- Base ---- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  /* faint drafting grid */
+  background-image:
+    linear-gradient(var(--color-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: -1px -1px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* The reading column sits on a solid paper sheet so the drafting grid
+   only shows in the margins that frame the document — never behind text. */
+.sheet {
+  background-color: color-mix(in srgb, var(--color-paper) 82%, white);
+  border: 1px solid var(--color-rule);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
+}
+
+/* main is a wide, transparent positioning context; the paper sheet sits
+   inside it so margin notes can float OUTSIDE the paper into the grid. */
+main {
+  position: relative;
+}
+
+/* The reading sheet — warm paper, drafting grid, left margin-rule. */
+.paper {
+  position: relative;
+  margin-inline: auto;
+  max-width: 46rem;
+  padding: 0.25rem 1.6rem 1.5rem;
+  background-color: color-mix(in srgb, var(--color-paper) 68%, white);
+  background-image:
+    linear-gradient(rgba(28, 27, 24, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(28, 27, 24, 0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: -1px -1px;
+  border-inline: 1px solid var(--color-rule);
+  box-shadow:
+    inset 3px 0 0 color-mix(in srgb, var(--color-racing) 28%, transparent),
+    0 18px 50px -28px rgba(0, 0, 0, 0.2);
+}
+
+/* Inline "idea" sub-headings in the reading flow (no boxed math block). */
+.idea-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--color-blueprint);
+  margin: 1.6rem 0 0.5rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--color-rule);
+}
+
+/* ---- Mono utility labels ---- */
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid var(--color-rule);
+  padding: 0.1rem 0.45rem;
+  color: var(--color-ink-soft);
+  background: var(--color-card);
+}
+
+/* ---- Headings ---- */
+h1, h2, h3 {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--color-ink);
+  letter-spacing: -0.01em;
+}
+
+.section-num {
+  font-family: var(--font-mono);
+  color: var(--color-racing);
+  font-weight: 600;
+}
+
+/* ---- Prose body ---- */
+.prose-manual {
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: var(--color-ink-soft);
+}
+.prose-manual strong { color: var(--color-ink); font-weight: 600; }
+.prose-manual ul { list-style: none; padding-left: 0; }
+.prose-manual li {
+  position: relative;
+  padding-left: 1.4rem;
+  margin: 0.5rem 0;
+}
+.prose-manual li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--color-racing);
+  font-family: var(--font-mono);
+}
+
+/* ---- Figure frame (used by Figure.astro) ---- */
+.figure {
+  border: 1px solid var(--color-rule);
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 6px,
+      color-mix(in srgb, var(--color-paper-2) 60%, transparent) 6px,
+      color-mix(in srgb, var(--color-paper-2) 60%, transparent) 7px
+    ),
+    var(--color-card);
+}
+.figure-bar {
+  border-bottom: 1px solid var(--color-rule);
+  background: var(--color-card);
+}
+
+/* corner ticks for the "technical drawing" feel */
+.ticked { position: relative; }
+.ticked::before,
+.ticked::after {
+  content: "";
+  position: absolute;
+  width: 8px; height: 8px;
+  border-color: var(--color-ink-faint);
+}
+.ticked::before { top: -1px; left: -1px; border-top: 1px solid; border-left: 1px solid; }
+.ticked::after  { bottom: -1px; right: -1px; border-bottom: 1px solid; border-right: 1px solid; }
+
+/* ---- SVG diagram labels (shared by Plate diagrams) ---- */
+.dlbl {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  fill: var(--color-ink-faint);
+}
+.dlbl-strong { fill: var(--color-ink); font-weight: 600; }
+.dlbl-racing { fill: var(--color-racing); font-weight: 600; }
+.dlbl-blue { fill: var(--color-blueprint); font-weight: 600; }
+.dlbl-amber { fill: var(--color-amber); font-weight: 600; }
+
+/* ---- Part divider ---- */
+.part-rule {
+  border-top: 3px double var(--color-ink);
+  margin-top: 1.5rem;
+}
+.part-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-racing);
+  font-weight: 600;
+}
+.part-title {
+  font-family: var(--font-mono);
+  font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--color-ink);
+  margin: 0.35rem 0 0.75rem;
+}
+.plate-frame {
+  border: 1px solid var(--color-rule);
+  background: var(--color-card);
+}
+.plate-cap {
+  border-top: 1px solid var(--color-rule);
+}
+
+/* ---- Section references block ---- */
+.refs {
+  margin: 1.5rem 0 0;
+  max-width: 42rem;
+  border-top: 1px solid var(--color-rule);
+  padding-top: 0.7rem;
+}
+.ref-list {
+  list-style: none;
+  counter-reset: ref;
+  padding: 0;
+  margin: 0;
+}
+.ref-list li {
+  counter-increment: ref;
+  position: relative;
+  padding-left: 1.6rem;
+  margin: 0.3rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  line-height: 1.5;
+  color: var(--color-ink-soft);
+}
+.ref-list li::before {
+  content: "[" counter(ref) "]";
+  position: absolute;
+  left: 0;
+  color: var(--color-racing);
+}
+.ref-list em { color: var(--color-ink); font-style: italic; }

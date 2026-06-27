@@ -1,0 +1,63 @@
+---
+// Plates III & IV — plan view of a corner with the racing line.
+//  mode="line"  → single line + turn-in / apex / exit points (Race Lines)
+//  mode="zones" → line coloured by phase: entry / apex / exit (Cornering)
+interface Props {
+  mode?: 'line' | 'zones';
+}
+const { mode = 'line' } = Astro.props;
+
+// shared road centreline
+const ROAD = 'M 90 290 C 90 150 240 80 440 90';
+---
+
+<svg viewBox="0 0 480 300" class="plate-svg" role="img"
+  aria-label={mode === 'zones'
+    ? 'Corner split into entry, apex and exit phases'
+    : 'Racing line through a corner: outside, apex, outside'}>
+
+  <!-- road band (thick-stroke trick) -->
+  <path d={ROAD} fill="none" stroke="var(--color-rule)" stroke-width="82" stroke-linecap="round" />
+  <path d={ROAD} fill="none" stroke="color-mix(in srgb, var(--color-paper) 30%, white)" stroke-width="76" stroke-linecap="round" />
+  <path d={ROAD} fill="none" stroke="var(--color-ink-faint)" stroke-width="1" stroke-dasharray="4 9" opacity="0.7" />
+
+  {mode === 'line' && (
+    <g>
+      <path d="M 58 288 C 120 150 220 150 250 152 C 320 154 420 100 445 62"
+        fill="none" stroke="var(--color-racing)" stroke-width="2.25" marker-end="url(#tip)" />
+      <!-- points -->
+      <circle cx="58" cy="288" r="4.5" fill="var(--color-ink)" />
+      <text x="66" y="282" class="dlbl dlbl-strong">Turn-in</text>
+      <circle cx="250" cy="152" r="4.5" fill="var(--color-racing)" />
+      <text x="250" y="176" text-anchor="middle" class="dlbl dlbl-racing">Apex</text>
+      <circle cx="445" cy="62" r="4.5" fill="var(--color-ink)" />
+      <text x="438" y="52" text-anchor="end" class="dlbl dlbl-strong">Exit</text>
+      <text x="150" y="120" class="dlbl">Stay wide…</text>
+      <text x="300" y="250" class="dlbl">…straighten the corner</text>
+    </g>
+  )}
+
+  {mode === 'zones' && (
+    <g>
+      <path d="M 58 288 C 120 150 220 150 250 152"
+        fill="none" stroke="var(--color-racing)" stroke-width="2.5" />
+      <path d="M 250 152 C 268 153 287 152 305 150"
+        fill="none" stroke="var(--color-blueprint)" stroke-width="3.25" />
+      <path d="M 305 150 C 360 148 420 100 445 62"
+        fill="none" stroke="var(--color-amber)" stroke-width="2.5" marker-end="url(#tip)" />
+      <text x="92" y="250" class="dlbl dlbl-racing">Entry · brake</text>
+      <text x="278" y="138" text-anchor="middle" class="dlbl dlbl-blue">Apex · lean</text>
+      <text x="392" y="98" class="dlbl dlbl-amber">Exit · drive</text>
+    </g>
+  )}
+
+  <defs>
+    <marker id="tip" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 z" fill={mode === 'zones' ? 'var(--color-amber)' : 'var(--color-racing)'} />
+    </marker>
+  </defs>
+</svg>
+
+<style>
+  .plate-svg { width: 100%; height: auto; display: block; }
+</style>

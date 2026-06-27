@@ -1,0 +1,95 @@
+---
+/**
+ * MathBlock — an in-flow, framed maths block with ADDITIVE tiers.
+ * Tier 1 is always shown. "Go deeper" appends Tier 2; "what's actually
+ * happening" appends Tier 3. Nothing already shown is removed.
+ *
+ * Tiers are provided as named slots: "tier1" (required), "tier2", "tier3".
+ * Reveal buttons appear only for tiers that actually have content, so deeper
+ * tiers can be added later without touching this component.
+ */
+interface Props {
+  title?: string;
+}
+const { title = 'The Maths' } = Astro.props;
+const hasT2 = Astro.slots.has('tier2');
+const hasT3 = Astro.slots.has('tier3');
+---
+<div class="mathblock ticked">
+  <div class="mb-head">
+    <span class="label"><span class="section-num">&sum;</span>&nbsp;{title}</span>
+    <span class="label">Additive</span>
+  </div>
+
+  <div class="mb-body">
+    <div class="mb-tier">
+      <div class="mb-tag mb-tag-1">Tier 1 · The idea</div>
+      <slot name="tier1" />
+    </div>
+
+    {hasT2 && (
+      <button class="mb-btn btn-2" data-reveal="2">&#65291; Go deeper — real tyre behaviour</button>
+      <div class="mb-tier t-2" hidden>
+        <div class="mb-tag mb-tag-2">Tier 2 · Real tyre behaviour <span class="kept">(Tier 1 still holds)</span></div>
+        <slot name="tier2" />
+      </div>
+    )}
+
+    {hasT3 && (
+      <button class="mb-btn btn-3" data-reveal="3" hidden>&#65291; What's actually happening</button>
+      <div class="mb-tier t-3" hidden>
+        <div class="mb-tag mb-tag-3">Tier 3 · What's actually happening <span class="kept">(both tiers still hold)</span></div>
+        <slot name="tier3" />
+      </div>
+    )}
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.mathblock').forEach((root) => {
+    root.querySelectorAll('.mb-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const lvl = btn.getAttribute('data-reveal');
+        root.querySelector('.t-' + lvl)?.removeAttribute('hidden');
+        btn.setAttribute('hidden', '');
+        if (lvl === '2') root.querySelector('.btn-3')?.removeAttribute('hidden');
+      });
+    });
+  });
+</script>
+
+<style>
+  .mathblock {
+    border: 1px solid var(--color-rule);
+    background: var(--color-card);
+    margin: 1.5rem 0;
+    max-width: 42rem;
+  }
+  .mb-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.5rem 0.9rem; border-bottom: 1px solid var(--color-rule);
+    background: color-mix(in srgb, var(--color-paper) 40%, white);
+  }
+  .mb-body { padding: 0.4rem 1rem 0.9rem; font-size: 0.92rem; }
+  .mb-tier :global(.tier-p) { line-height: 1.65; color: var(--color-ink-soft); margin: 0.55rem 0; }
+  .mb-tier :global(strong) { color: var(--color-ink); }
+  .mb-tag {
+    font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.12em;
+    text-transform: uppercase; padding: 0.5rem 0 0.2rem;
+    border-bottom: 1px solid var(--color-rule); margin-bottom: 0.3rem;
+  }
+  .mb-tag-1 { color: var(--color-blueprint); }
+  .mb-tag-2 { color: var(--color-amber); }
+  .mb-tag-3 { color: var(--color-racing); }
+  .kept { color: var(--color-ink-faint); text-transform: none; letter-spacing: 0; }
+  .mb-btn {
+    font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.04em;
+    border: 1px solid var(--color-ink); background: var(--color-paper); color: var(--color-ink);
+    padding: 0.4rem 0.7rem; cursor: pointer; margin: 0.7rem 0 0.2rem; display: block; width: 100%;
+    text-align: left; transition: all 0.12s ease;
+  }
+  .mb-btn:hover { background: var(--color-ink); color: var(--color-paper); }
+  .mb-btn.btn-3 { border-color: var(--color-racing); color: var(--color-racing); }
+  .mb-btn.btn-3:hover { background: var(--color-racing); color: var(--color-paper); }
+  :global(.mathblock .katex-display) { margin: 0.5rem 0; overflow-x: auto; overflow-y: hidden; }
+</style>

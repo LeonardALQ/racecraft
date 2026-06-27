@@ -1,0 +1,126 @@
+---
+// Shared payload for the panel-UX samples: the Traction Budget explained in
+// three ADDITIVE tiers. Tier 1 is always shown; deeper tiers append below it.
+import Math from './Math.astro';
+---
+
+<div class="mathtiers">
+  <!-- ── TIER 1 — always visible ── -->
+  <div class="tier tier-1">
+    <div class="tier-tag tier-tag-1">Tier 1 · The idea</div>
+    <p class="tier-p">
+      One tyre has <strong>one grip budget</strong>, shared between going/slowing
+      (longitudinal) and turning (lateral). Treat the limit as the same in every
+      direction — a circle of radius <Math expr={String.raw`\mu g`} />. Demands add as a vector:
+    </p>
+    <Math display expr={String.raw`\left(\tfrac{F_x}{F_{\max}}\right)^2 + \left(\tfrac{F_y}{F_{\max}}\right)^2 \le 1`} />
+    <p class="tier-p">
+      So 70% brake + 70% lean is fine: <Math expr={String.raw`0.7^2 + 0.7^2 = 0.98 \le 1`} />.
+      Cross the circle and you've asked for more grip than exists.
+    </p>
+  </div>
+
+  <button class="tier-btn btn-2" data-reveal="2">＋ Go deeper — real tyre behaviour</button>
+
+  <!-- ── TIER 2 — appended ── -->
+  <div class="tier tier-2" hidden>
+    <div class="tier-tag tier-tag-2">Tier 2 · Real tyre behaviour <span class="kept">(Tier 1 still holds)</span></div>
+    <p class="tier-p">
+      The circle is really an <strong>ellipse</strong> — peak grip differs longitudinally
+      vs laterally, so:
+    </p>
+    <Math display expr={String.raw`\left(\tfrac{F_x}{F_{x,\max}}\right)^2 + \left(\tfrac{F_y}{F_{y,\max}}\right)^2 \le 1`} />
+    <p class="tier-p">
+      And <strong>grip is load-sensitive</strong>: the friction coefficient falls as
+      vertical load rises, so the budget itself breathes with weight transfer:
+    </p>
+    <Math display expr={String.raw`\mu(F_z) = \mu_0 - k\,F_z, \qquad k > 0`} />
+    <p class="tier-p">
+      A leaned tyre also makes lateral force from <strong>camber thrust</strong>, not just
+      slip — so lean angle <Math expr={String.raw`\gamma`} /> contributes directly:
+    </p>
+    <Math display expr={String.raw`F_y \approx C_\alpha\,\alpha + C_\gamma\,\gamma`} />
+  </div>
+
+  <button class="tier-btn btn-3" data-reveal="3" hidden>＋ What's actually happening</button>
+
+  <!-- ── TIER 3 — appended ── -->
+  <div class="tier tier-3" hidden>
+    <div class="tier-tag tier-tag-3">Tier 3 · What's actually happening <span class="kept">(both tiers still hold)</span></div>
+    <p class="tier-p">
+      Tyre force is a nonlinear function of slip ratio <Math expr={String.raw`\kappa`} /> and slip
+      angle <Math expr={String.raw`\alpha`} />, captured by Pacejka's Magic Formula:
+    </p>
+    <Math display expr={String.raw`F = D\,\sin\!\Big(C\arctan\!\big(Bs - E(Bs - \arctan Bs)\big)\Big)`} />
+    <p class="tier-p">
+      Under <strong>combined slip</strong>, longitudinal and lateral forces interact through
+      weighting functions <Math expr={String.raw`G_{x\alpha},\,G_{y\kappa}`} />, which is what bends the
+      ellipse. Meanwhile the load on each tyre is set dynamically by acceleration and
+      CoG height:
+    </p>
+    <Math display expr={String.raw`F_{z,\text{front}} = \frac{m g\,b + m\,a_x\,h}{L}, \qquad \Delta F_z = \frac{m\,a_x\,h}{L}`} />
+    <p class="tier-p">
+      So the &ldquo;friction circle&rdquo; is really a <strong>load- and slip-dependent
+      surface</strong> in <Math expr={String.raw`(\kappa,\ \alpha,\ F_z,\ \gamma)`} /> space, changing
+      every instant of the corner.
+    </p>
+    <p class="tier-cite">Refs: Pacejka, <em>Tyre &amp; Vehicle Dynamics</em>; Cossalter, <em>Motorcycle Dynamics</em>.</p>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.mathtiers').forEach((root) => {
+    root.querySelectorAll('.tier-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const lvl = btn.getAttribute('data-reveal');
+        const tier = root.querySelector('.tier-' + lvl);
+        if (tier) tier.removeAttribute('hidden');
+        btn.setAttribute('hidden', '');
+        if (lvl === '2') {
+          const b3 = root.querySelector('.btn-3');
+          if (b3) b3.removeAttribute('hidden');
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .mathtiers { font-size: 0.9rem; }
+  .tier { padding: 0.2rem 0 0.4rem; }
+  .tier-p { line-height: 1.6; color: var(--color-ink-soft); margin: 0.5rem 0; }
+  .tier-p strong { color: var(--color-ink); }
+  .tier-tag {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.15rem 0;
+    margin-top: 0.4rem;
+    border-bottom: 1px solid var(--color-rule);
+  }
+  .tier-tag-1 { color: var(--color-blueprint); }
+  .tier-tag-2 { color: var(--color-amber); }
+  .tier-tag-3 { color: var(--color-racing); }
+  .kept { color: var(--color-ink-faint); text-transform: none; letter-spacing: 0; }
+  .tier-cite { font-family: var(--font-mono); font-size: 0.62rem; color: var(--color-ink-faint); margin-top: 0.6rem; }
+  .tier-btn {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    border: 1px solid var(--color-ink);
+    background: var(--color-card);
+    color: var(--color-ink);
+    padding: 0.4rem 0.7rem;
+    cursor: pointer;
+    margin: 0.6rem 0;
+    display: block;
+    width: 100%;
+    text-align: left;
+    transition: all 0.12s ease;
+  }
+  .tier-btn:hover { background: var(--color-ink); color: var(--color-paper); }
+  .tier-btn.btn-3 { border-color: var(--color-racing); color: var(--color-racing); }
+  .tier-btn.btn-3:hover { background: var(--color-racing); color: var(--color-paper); }
+  :global(.katex-display) { margin: 0.5rem 0; overflow-x: auto; overflow-y: hidden; }
+</style>

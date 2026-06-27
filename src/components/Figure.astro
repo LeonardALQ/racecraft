@@ -1,0 +1,29 @@
+---
+interface Props {
+  num: string;        // e.g. "3.1"
+  title: string;      // e.g. "The Traction Budget"
+  caption?: string;   // optional explanatory caption below
+}
+const { num, title, caption } = Astro.props;
+---
+
+<figure class="figure ticked my-8">
+  <figcaption class="figure-bar px-4 py-2 flex items-center justify-between gap-3">
+    <span class="label">
+      <span class="section-num">Fig. {num}</span> &nbsp;{title}
+    </span>
+    <span class="tag">Interactive</span>
+  </figcaption>
+
+  <div class="p-4 sm:p-6">
+    <slot />
+  </div>
+
+  {caption && (
+    <div class="border-t border-[var(--color-rule)] px-4 py-2">
+      <p class="label normal-case tracking-normal text-[var(--color-ink-soft)] leading-relaxed">
+        {caption}
+      </p>
+    </div>
+  )}
+</figure>

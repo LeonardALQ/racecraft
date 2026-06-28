@@ -27,8 +27,8 @@ const { marker = '✦' } = Astro.props;
   .sn-note {
     float: right;
     clear: right;
-    width: 13rem;
-    margin: 0.15rem -15rem 0.7rem 0;  /* push OUTSIDE the paper, into the grid margin */
+    width: 11rem;
+    margin: 0.15rem -14.6rem 0.7rem 0;  /* sit ~2rem clear of the paper border, in the grid margin */
     font-family: var(--font-mono);
     font-size: 0.64rem;
     line-height: 1.5;
@@ -38,7 +38,7 @@ const { marker = '✦' } = Astro.props;
   .sn-mk { color: var(--color-racing); margin-right: 0.35rem; }
 
   /* Narrow: fold inline beneath the paragraph as an indented block */
-  @media (max-width: 1280px) {
+  @media (max-width: 1279px) {
     .sn-note {
       float: none;
       width: auto;

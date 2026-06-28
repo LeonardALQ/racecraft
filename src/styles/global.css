@@ -67,7 +67,7 @@ main {
 .paper {
   position: relative;
   margin-inline: auto;
-  max-width: 46rem;
+  max-width: 52rem;
   padding: 0.25rem 1.6rem 1.5rem;
   background-color: color-mix(in srgb, var(--color-paper) 68%, white);
   background-image:

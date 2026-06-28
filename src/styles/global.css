@@ -224,7 +224,6 @@ h1, h2, h3 {
 /* ---- Section references block ---- */
 .refs {
   margin: 1.5rem 0 0;
-  max-width: 42rem;
   border-top: 1px solid var(--color-rule);
   padding-top: 0.7rem;
 }

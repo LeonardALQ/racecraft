@@ -41,10 +41,10 @@ const toc = [
     <!-- ── Hero / Preface ─────────────────────────────── -->
     <section class="pt-14 pb-10 border-b border-[var(--color-rule)]">
       <div class="label mb-3">Preface</div>
-      <h1 class="text-3xl sm:text-4xl leading-tight max-w-2xl">
+      <h1 class="text-3xl sm:text-4xl leading-tight">
         Riding Fast Is Physics.<br />This Manual Makes It Legible.
       </h1>
-      <p class="prose-manual mt-4 max-w-2xl">
+      <p class="prose-manual mt-4">
         A working manual on motorbike racing technique, built in four parts:
         the <strong>model</strong> that governs everything, the <strong>inputs</strong>
         you use to spend it, the <strong>line</strong> you spend it along, and how it
@@ -53,7 +53,7 @@ const toc = [
       </p>
 
       <!-- grouped contents -->
-      <nav class="mt-8 grid sm:grid-cols-2 gap-x-10 gap-y-6 max-w-3xl">
+      <nav class="mt-8 grid sm:grid-cols-2 gap-x-10 gap-y-6">
         {toc.map((p) => (
           <div>
             <a href={p.href} class="part-kicker block mb-2 hover:underline">
@@ -89,7 +89,7 @@ const toc = [
         <span class="label">Section 01</span><span class="tag">Draft</span>
       </div>
       <h3 class="text-xl mb-4">The Tyre &amp; Contact Patch</h3>
-      <div class="prose-manual max-w-2xl">
+      <div class="prose-manual">
         <ul>
           <li>
             Everything you ask the bike to do reaches the road through two contact
@@ -212,7 +212,7 @@ const toc = [
         <span class="label">Section 03</span><span class="tag">Draft</span>
       </div>
       <h3 class="text-xl mb-4">Vision &amp; Where to Look</h3>
-      <div class="prose-manual max-w-2xl">
+      <div class="prose-manual">
         <ul>
           <li>
             <strong>You go where you look.</strong> The bike follows your eyes. Fixate on the
@@ -246,7 +246,7 @@ const toc = [
         <span class="label">Section 04</span><span class="tag">Draft</span>
       </div>
       <h3 class="text-xl mb-4">Counter-steering</h3>
-      <div class="prose-manual max-w-2xl">
+      <div class="prose-manual">
         <ul>
           <li>
             Above walking pace you don't lean the bike by leaning your body — you
@@ -272,7 +272,7 @@ const toc = [
         <span class="label">Section 05</span><span class="tag">Expanded</span>
       </div>
       <h3 class="text-xl mb-4">Braking &amp; Trail-braking</h3>
-      <div class="prose-manual max-w-2xl">
+      <div class="prose-manual">
         <ul>
           <li>
             Brake in a pattern of <strong>5% → 100%</strong>: squeeze in lightly first to load
@@ -297,7 +297,7 @@ const toc = [
     <section id="s-throttle" class="py-9 border-b border-[var(--color-rule)] scroll-mt-16">
       <div class="label mb-2">Section 06</div>
       <h3 class="text-xl mb-4">Throttle</h3>
-      <div class="prose-manual max-w-2xl">
+      <div class="prose-manual">
         <ul>
           <li>
             Throttle must be applied <strong>smoothly, evenly, and consistently</strong>. This
@@ -323,7 +323,7 @@ const toc = [
     <section id="s-gears" class="py-9 border-b border-[var(--color-rule)] scroll-mt-16">
       <div class="label mb-2">Section 07</div>
       <h3 class="text-xl mb-4">Gear Changes</h3>
-      <div class="prose-manual max-w-2xl">
+      <div class="prose-manual">
         <ul>
           <li>A gear change is another input you should <strong>not</strong> be manipulating near maximal lean angle.</li>
           <li><strong>Downshift during maximal braking</strong>; <strong>upshift as you exit</strong> the corner.</li>
@@ -335,7 +335,7 @@ const toc = [
     <section id="s-lean" class="py-9 border-b border-[var(--color-rule)] scroll-mt-16">
       <div class="label mb-2">Section 08</div>
       <h3 class="text-xl mb-4">Leaning</h3>
-      <div class="prose-manual max-w-2xl">
+      <div class="prose-manual">
         <p class="mb-3">There are two different angles we care about:</p>
         <ul>
           <li>
@@ -371,7 +371,7 @@ const toc = [
         <span class="label">Section 09</span><span class="tag">Draft</span>
       </div>
       <h3 class="text-xl mb-4">Body Position</h3>
-      <div class="prose-manual max-w-2xl">
+      <div class="prose-manual">
         <ul>
           <li>
             Body position is how you <strong>cheat lean angle</strong>. By hanging your body to
@@ -400,7 +400,7 @@ const toc = [
     <section id="s-turnin" class="py-9 border-b border-[var(--color-rule)] scroll-mt-16">
       <div class="label mb-2">Section 10</div>
       <h3 class="text-xl mb-4">Making the Bike Lean Quickly</h3>
-      <div class="prose-manual max-w-2xl">
+      <div class="prose-manual">
         <p class="mb-3">To make the bike lean as fast as possible, we want:</p>
         <ul>
           <li>
@@ -439,7 +439,7 @@ const toc = [
     <section id="s-lines" class="py-9 border-b border-[var(--color-rule)] scroll-mt-16">
       <div class="label mb-2">Section 11</div>
       <h3 class="text-xl mb-4">Race Lines</h3>
-      <div class="prose-manual max-w-2xl">
+      <div class="prose-manual">
         <ul>
           <li>You want to <strong>straighten the turn</strong> as much as possible.</li>
           <li>The <strong>apex</strong> is the point where you are closest to the inside of the turn.</li>
@@ -465,7 +465,7 @@ const toc = [
     <section id="s-corner" class="py-9 scroll-mt-16">
       <div class="label mb-2">Section 12</div>
       <h3 class="text-xl mb-4">Cornering — Entry, Apex, Exit</h3>
-      <div class="prose-manual max-w-2xl">
+      <div class="prose-manual">
         <p class="mb-3">Break a corner into three parts: entry, apex, exit.</p>
         <ul>
           <li><strong>Entry:</strong> throttle at 0%, braking at 100%.</li>

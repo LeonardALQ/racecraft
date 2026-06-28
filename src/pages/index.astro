@@ -95,13 +95,13 @@ const toc = [
         <p>
             Everything we ask of the bike runs through two small patches of rubber: one
             at the front, one at the rear, each about the size of a palm. That is our
-            entire connection to the road, and our entire <strong>budget of grip</strong>;
+            entire connection to the road, and our entire budget of grip;
             every input we make is a withdrawal from it.
           </p>
           <p>
-            Grip changes constantly. It rises and falls with the <strong>load</strong>
-            pressing the tyre down, with its <strong>temperature</strong>, and with the
-            <strong>surface</strong> beneath us; a cold tyre gives up far less than a warm
+            Grip changes constantly. It rises and falls with the load
+            pressing the tyre down, with its temperature, and with the
+            surface beneath us; a cold tyre gives up far less than a warm
             one, which is why we bring them up to temperature before we lean on them.
           </p>
           <p>
@@ -119,8 +119,8 @@ const toc = [
 
       <div class="prose-manual">
         <p>
-          A tyre has <strong>one budget of grip</strong>, shared between slowing or driving
-          (longitudinal) and turning (lateral).<SideNote marker="1"><strong>Longitudinal</strong> grip is what we spend on brake and throttle; <strong>lateral</strong> grip is what we spend on lean. One budget feeds both.</SideNote>
+          A tyre has one budget of grip, shared between slowing or driving
+          (longitudinal) and turning (lateral).<SideNote marker="1">Longitudinal grip is what we spend on brake and throttle; lateral grip is what we spend on lean. One budget feeds both.</SideNote>
           Spend it all in one direction and there is none left for the other.
         </p>
 
@@ -145,12 +145,12 @@ const toc = [
       <div class="prose-manual">
         <h4 class="idea-kicker">Adding real tyre behaviour</h4>
         <p>
-          Real tyres are not isotropic, so the circle is really an <strong>ellipse</strong>;
+          Real tyres are not isotropic, so the circle is really an ellipse;
           longitudinal and lateral peak grip differ:
         </p>
         <Math display expr={String.raw`\left(\frac{F_x}{F_{x,\max}}\right)^2 + \left(\frac{F_y}{F_{y,\max}}\right)^2 \le 1`} />
         <p>
-          And grip is <strong>load-sensitive</strong>: the friction coefficient falls as
+          And grip is load-sensitive: the friction coefficient falls as
           vertical load rises (Milliken &amp; Milliken, Fig. 2.9), so the whole budget breathes
           with weight transfer:
         </p>
@@ -158,7 +158,7 @@ const toc = [
         <p>
           Peak force <Math expr={String.raw`F_{\max}=\mu(F_z)\,F_z`} /> still grows with load,
           but at a diminishing rate. A leaned tyre also makes lateral force from
-          <strong>camber thrust</strong> as well as slip, so lean angle
+          camber thrust as well as slip, so lean angle
           <Math expr={String.raw`\gamma`} /> contributes directly:
           <Math expr={String.raw`F_y \approx C_\alpha\,\alpha + C_\gamma\,\gamma`} />. Raise the
           load below and watch the ellipse breathe.
@@ -177,13 +177,13 @@ const toc = [
         </p>
         <Math display expr={String.raw`F = F_z\,D\,\sin\!\Big(C\arctan\!\big(Bs - E(Bs - \arctan Bs)\big)\Big)`} />
         <p>
-          Under <strong>combined slip</strong> the two forces interact, bending the ellipse.
+          Under combined slip the two forces interact, bending the ellipse.
           Meanwhile each tyre's load is set dynamically by acceleration and centre-of-mass height; under braking, the front is loaded:
         </p>
         <Math display expr={String.raw`F_{z,\text{front}} = \frac{m g\,b - m\,a_x\,h}{L}, \qquad \Delta F_z = \frac{m\,a_x\,h}{L}`} />
         <p>
           So the &ldquo;friction circle&rdquo; is really a load- and slip-dependent
-          <strong>surface</strong> in <Math expr={String.raw`(\kappa,\ \alpha,\ F_z,\ \gamma)`} />
+          surface in <Math expr={String.raw`(\kappa,\ \alpha,\ F_z,\ \gamma)`} />
           space, changing every instant of the corner. Brake hard below and watch the front
           ellipse grow.
         </p>

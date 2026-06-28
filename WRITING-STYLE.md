@@ -43,3 +43,7 @@ Preface:
 > Everything we ask of the bike runs through two small patches of rubber: one at the
 > front, one at the rear, each about the size of a palm. That is our entire connection
 > to the road, and our entire budget of grip; every input we make is a withdrawal from it.
+
+## More
+- **No bold.** Never wrap words in bold for emphasis. Let sentence structure
+  and word choice carry the weight. (Italic book titles in references are fine.)
